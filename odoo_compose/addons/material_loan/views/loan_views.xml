@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- VISTA LISTA PRESTAMOS -->
+    <record id="view_loan_tree" model="ir.ui.view">
+        <field name="name">material.loan.tree</field>
+        <field name="model">material.loan</field>
+        <field name="arch" type="xml">
+            <tree decoration-success="state == 'returned'"
+                  decoration-warning="state == 'borrowed'">
+                <field name="material_id"/>
+                <field name="student_name"/>
+                <field name="date_loan"/>
+                <field name="date_return"/>
+                <field name="state"
+                       widget="badge"
+                       decoration-success="state == 'returned'"
+                       decoration-warning="state == 'borrowed'"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- VISTA FORMULARIO PRESTAMOS -->
+    <record id="view_loan_form" model="ir.ui.view">
+        <field name="name">material.loan.form</field>
+        <field name="model">material.loan</field>
+        <field name="arch" type="xml">
+            <form>
+            <header>
+                <button name="action_return"
+                        string="Marcar como devuelto"
+                        type="object"
+                        class="btn-primary"
+                        attrs="{'invisible': [('state', '!=', 'borrowed')]}"/>
+
+                <button name="%(report_loan)d"
+                        string="Imprimir PDF"
+                        type="action"
+                        class="btn-secondary"/>
+
+                <field name="state"
+                    widget="statusbar"
+                    statusbar_visible="borrowed,returned"/>
+            </header>
+                <sheet>
+                    <group>
+                        <group string="Préstamo">
+                            <field name="material_id"/>
+                            <field name="student_name"/>
+                        </group>
+                        <group string="Fechas">
+                            <field name="date_loan"/>
+                            <field name="date_return"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACCION PRESTAMOS -->
+    <record id="action_loans" model="ir.actions.act_window">
+        <field name="name">Préstamos</field>
+        <field name="res_model">material.loan</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- SUBMENU PRESTAMOS -->
+    <menuitem id="menu_loans"
+              name="Préstamos"
+              parent="menu_material_loan_root"
+              action="action_loans"
+              sequence="2"/>
+
+</odoo>

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- VISTA GRAFICO PRESTAMOS -->
+    <record id="view_loan_graph" model="ir.ui.view">
+        <field name="name">material.loan.graph</field>
+        <field name="model">material.loan</field>
+        <field name="arch" type="xml">
+            <graph string="Préstamos por estado" type="bar">
+                <field name="state" type="row"/>
+                <field name="id" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- VISTA PIVOT -->
+    <record id="view_loan_pivot" model="ir.ui.view">
+        <field name="name">material.loan.pivot</field>
+        <field name="model">material.loan</field>
+        <field name="arch" type="xml">
+            <pivot string="Estadísticas de préstamos">
+                <field name="state" type="row"/>
+                <field name="date_loan" interval="month" type="col"/>
+                <field name="id" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- ACCION DASHBOARD -->
+    <record id="action_dashboard" model="ir.actions.act_window">
+        <field name="name">Dashboard</field>
+        <field name="res_model">material.loan</field>
+        <field name="view_mode">graph,pivot</field>
+    </record>
+
+    <!-- MENU DASHBOARD -->
+    <menuitem id="menu_dashboard"
+              name="Dashboard"
+              parent="menu_material_loan_root"
+              action="action_dashboard"
+              sequence="3"/>
+
+</odoo>

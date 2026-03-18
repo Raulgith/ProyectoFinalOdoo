@@ -1,0 +1,46 @@
+<odoo>
+
+    <!-- TEMPLATE PDF -->
+    <template id="report_loan_template">
+        <t t-call="web.basic_layout">
+            <div class="page">
+                <h2>Informe de Préstamos</h2>
+
+                <table class="table table-sm">
+                    <thead>
+                        <tr>
+                            <th>Material</th>
+                            <th>Alumno</th>
+                            <th>Fecha préstamo</th>
+                            <th>Fecha devolución</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="docs" t-as="o">
+                            <tr>
+                                <td><t t-esc="o.material_id.name"/></td>
+                                <td><t t-esc="o.student_name"/></td>
+                                <td><t t-esc="o.date_loan"/></td>
+                                <td><t t-esc="o.date_return"/></td>
+                                <td><t t-esc="o.state"/></td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+
+            </div>
+        </t>
+    </template>
+
+    <!-- REPORT -->
+    <report
+        id="report_loan"
+        model="material.loan"
+        string="Informe de préstamos"
+        report_type="qweb-pdf"
+        name="material_loan.report_loan_template"
+        file="material_loan.report_loan_template"
+    />
+
+</odoo>

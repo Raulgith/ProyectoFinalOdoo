@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- VISTA LISTA MATERIALES -->
+    <record id="view_material_tree" model="ir.ui.view">
+        <field name="name">material.loan.material.tree</field>
+        <field name="model">material.loan.material</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name"/>
+                <field name="quantity"/>
+                <field name="quantity_on_loan"/>
+                <field name="available" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- VISTA FORMULARIO MATERIALES -->
+    <record id="view_material_form" model="ir.ui.view">
+        <field name="name">material.loan.material.form</field>
+        <field name="model">material.loan.material</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nombre del material"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Stock">
+                            <field name="quantity"/>
+                            <field name="quantity_on_loan"/>
+                            <field name="available" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Préstamos activos">
+                            <field name="loan_ids"
+                                   domain="[('state','=','borrowed')]"
+                                   context="{'default_material_id': active_id}">
+                                <tree>
+                                    <field name="student_name"/>
+                                    <field name="date_loan"/>
+                                    <field name="state"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- ACCION MATERIALES -->
+    <record id="action_materials" model="ir.actions.act_window">
+        <field name="name">Materiales</field>
+        <field name="res_model">material.loan.material</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- MENU RAIZ -->
+    <menuitem id="menu_material_loan_root"
+              name="Material Loan"
+              sequence="10"
+              web_icon="material_loan,static/description/icon.png"/>
+
+    <!-- SUBMENU MATERIALES -->
+    <menuitem id="menu_materials"
+              name="Materiales"
+              parent="menu_material_loan_root"
+              action="action_materials"
+              sequence="1"/>
+
+</odoo>
